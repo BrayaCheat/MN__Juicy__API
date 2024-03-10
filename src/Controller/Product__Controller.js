@@ -193,6 +193,53 @@ const paginateProduct = async (req, res) => {
   }
 };
 
+const limitProduct = async (req, res) => {
+  try {
+    const limit = req.query.limit || 5
+    const result = await ProductModel.find().limit(limit)
+    if(result.length === 0){
+      return res.status(200).json({
+        message: 'Could not find the product!'
+      })
+    }else{
+      return res.status(200).json({
+        message: 'Get by limit success!',
+        list: result
+      })
+    }
+  } catch (error) {
+    return res.status(404).json({
+      message: "Error 404",
+      error: error.message,
+    });
+  }
+}
+
+const sortProduct = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 5
+    const sortOrder = req.query.order || 'asc'
+    const sortOptions = {}
+    sortOptions['price'] = sortOrder
+    const result = await ProductModel.find().limit(limit).sort(sortOptions)
+    if(result.length === 0){
+      return res.status(200).json({
+        message: 'Could not find the product!'
+      })
+    }else{
+      return res.status(200).json({
+        message: 'Sort product success!',
+        list: result
+      })
+    }
+  } catch (error) {
+    return res.status(404).json({
+      message: "Error 404",
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   createProduct,
   getProduct,
@@ -202,4 +249,6 @@ module.exports = {
   deleteProduct,
   searchProduct,
   paginateProduct,
+  limitProduct,
+  sortProduct
 };

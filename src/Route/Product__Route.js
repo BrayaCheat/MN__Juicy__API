@@ -11,5 +11,7 @@ router.put('/product/:id', upload.single('image'), Product__Controller.updatePro
 router.delete('/product/:id', Product__Controller.deleteProduct)
 router.get('/search', Product__Controller.searchProduct)
 router.get('/paginate', Product__Controller.paginateProduct)
+router.get('/limit', Product__Controller.limitProduct)
+router.get('/sort', Product__Controller.sortProduct)
 
 module.exports = router
