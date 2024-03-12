@@ -1,12 +1,16 @@
 const ProductModel = require("../Model/Product__Model");
 
 const createProduct = async (req, res) => {
+  console.log(req.file)
   try {
     const product = new ProductModel({
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
-      image: req.file.filename,
+      image: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      },
       price: req.body.price,
     });
     const result = await product.save();
@@ -195,17 +199,17 @@ const paginateProduct = async (req, res) => {
 
 const limitProduct = async (req, res) => {
   try {
-    const limit = req.query.limit || 5
-    const result = await ProductModel.find().limit(limit)
-    if(result.length === 0){
+    const limit = req.query.limit || 5;
+    const result = await ProductModel.find().limit(limit);
+    if (result.length === 0) {
       return res.status(200).json({
-        message: 'Could not find the product!'
-      })
-    }else{
+        message: "Could not find the product!",
+      });
+    } else {
       return res.status(200).json({
-        message: 'Get by limit success!',
-        list: result
-      })
+        message: "Get by limit success!",
+        list: result,
+      });
     }
   } catch (error) {
     return res.status(404).json({
@@ -213,24 +217,24 @@ const limitProduct = async (req, res) => {
       error: error.message,
     });
   }
-}
+};
 
 const sortProduct = async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 5
-    const sortOrder = req.query.order || 'asc'
-    const sortOptions = {}
-    sortOptions['price'] = sortOrder
-    const result = await ProductModel.find().limit(limit).sort(sortOptions)
-    if(result.length === 0){
+    const limit = parseInt(req.query.limit) || 5;
+    const sortOrder = req.query.order || "asc";
+    const sortOptions = {};
+    sortOptions["price"] = sortOrder;
+    const result = await ProductModel.find().limit(limit).sort(sortOptions);
+    if (result.length === 0) {
       return res.status(200).json({
-        message: 'Could not find the product!'
-      })
-    }else{
+        message: "Could not find the product!",
+      });
+    } else {
       return res.status(200).json({
-        message: 'Sort product success!',
-        list: result
-      })
+        message: "Sort product success!",
+        list: result,
+      });
     }
   } catch (error) {
     return res.status(404).json({
@@ -238,7 +242,7 @@ const sortProduct = async (req, res) => {
       error: error.message,
     });
   }
-}
+};
 
 module.exports = {
   createProduct,
@@ -250,5 +254,5 @@ module.exports = {
   searchProduct,
   paginateProduct,
   limitProduct,
-  sortProduct
+  sortProduct,
 };
