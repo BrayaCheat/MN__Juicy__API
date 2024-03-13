@@ -30,7 +30,7 @@ const createProduct = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const result = await ProductModel.find({image});
+    const result = await ProductModel.find();
     if (result.length === 0) {
       return res.status(200).json({
         message: "Could not find the product!",
