@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
-      image: req.file.filename && req.file.path,
+      image: req.file.filename,
       price: req.body.price,
     });
     const result = await product.save();
