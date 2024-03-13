@@ -1,16 +1,12 @@
 const ProductModel = require("../Model/Product__Model");
 
 const createProduct = async (req, res) => {
-  console.log(req.file)
   try {
     const product = new ProductModel({
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
-      image: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      },
+      image: req.file.filename && req.file.path,
       price: req.body.price,
     });
     const result = await product.save();
@@ -34,7 +30,7 @@ const createProduct = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const result = await ProductModel.find();
+    const result = await ProductModel.find({image});
     if (result.length === 0) {
       return res.status(200).json({
         message: "Could not find the product!",
