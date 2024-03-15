@@ -171,20 +171,20 @@ const searchProduct = async (req, res) => {
 const paginateProduct = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 5;
-    const result = await ProductModel.find()
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
-    if (result.length === 0) {
-      return res.status(200).json({
-        message: "Could not find the product!",
-      });
-    } else {
-      return res.status(200).json({
-        message: "Pagination success!",
-        list: result,
-      });
-    }
+    const pageSize = parseInt(req.query.pageSize) || 6;
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = page * pageSize;
+
+    let items = await ProductModel.find()
+    const paginatedItems = items.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      items: paginatedItems,
+      totalItems: items,
+      currentPage: page,
+      totalPages: Math.ceil(items.length / pageSize)
+    })
+
   } catch (error) {
     return res.status(404).json({
       message: "Error 404",
