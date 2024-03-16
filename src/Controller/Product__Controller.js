@@ -240,6 +240,18 @@ const sortProduct = async (req, res) => {
   }
 };
 
+// const deleteAll = async (req, res) => {
+//   try {
+//     const result = await ProductModel.deleteMany()
+//     res.json({
+//       message: 'Delete all sucess',
+//       list: result
+//     })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 module.exports = {
   createProduct,
   getProduct,
@@ -251,4 +263,5 @@ module.exports = {
   paginateProduct,
   limitProduct,
   sortProduct,
+  // deleteAll
 };

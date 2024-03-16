@@ -13,5 +13,6 @@ router.get('/search', Product__Controller.searchProduct)
 router.get('/paginate', Product__Controller.paginateProduct)
 router.get('/limit', Product__Controller.limitProduct)
 router.get('/sort', Product__Controller.sortProduct)
+// router.get('/deleteAll', Product__Controller.deleteAll)
 
 module.exports = router
